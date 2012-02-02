@@ -23,6 +23,13 @@ class Variety(models.Model):
 
 
 class Vineyard(models.Model):
+    """
+    Vineyard is a place that produces wine.
+
+    Ensure you do the following in mongo to allow geospatial queries:
+    > use krater_vineyard
+    > db.krater_vineyard.ensureIndex( { location : "2d" } )
+    """
 
     # Embedded Models
     location = EmbeddedModelField(Point, null=True)

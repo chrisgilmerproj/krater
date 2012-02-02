@@ -61,19 +61,19 @@ class VineyardHandler(BaseHandler):
             # Given 10km we 10km * degrees/111.0km
             # Given 10mi we 10mi * degrees/69.0mi
             if units == 'km':
-                radius = radius/111.0
+                radius = radius / 111.0
             elif units == 'm':
-                radius = radius/(111.0 * 1000.0)  # 1000m per km
+                radius = radius / (111.0 * 1000.0)  # 1000m per km
             elif units == 'mi':
-                radius = radius/69.0
+                radius = radius / 69.0
             elif units == 'ft':
-                radius = radius/(69.0 * 5280.0)  # 5280ft per mi
+                radius = radius / (69.0 * 5280.0)  # 5280ft per mi
             else:
                 raise Exception('Units are wrong')
-            center = {'latitude' : lat, 'longitude' : lon}
+            center = {'latitude': lat, 'longitude': lon}
 
             #return Vineyard.objects.raw_query({'location' : {'$near' : here}})
-            return Vineyard.objects.raw_query({"loc" : {"$within" : {"$center" : [center, radius]}}})[:limit]
+            return Vineyard.objects.raw_query({"location": {"$within": {"$center": [center, radius]}}})[:limit]
 
         return Vineyard.objects.all()[:limit]
 

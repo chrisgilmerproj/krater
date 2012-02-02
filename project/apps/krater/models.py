@@ -7,7 +7,7 @@ from django_mongodb_engine.contrib import MongoDBManager
 
 class Point(models.Model):
     latitude = models.FloatField()
-    longtitude = models.FloatField()
+    longitude = models.FloatField()
 
 
 class Variety(models.Model):

@@ -1,0 +1,6 @@
+activate
+env/
+*.db
+*.pyc
+*.swp
+local_settings.py

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock title %} | Krater</title>
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+        <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <!-- Le styles -->
+        <link href="{{STATIC_URL}}css/bootstrap.css" rel="stylesheet">
+        <style>
+          body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+          }
+        </style>
+
+        <!-- Le fav and touch icons -->
+        <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico">
+        <link rel="apple-touch-icon" href="{{STATIC_URL}}img/apple-touch-icon.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{STATIC_URL}}img/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{STATIC_URL}}img/apple-touch-icon-114x114.png">
+        {% block extra_head %}
+        {% endblock extra_head %}
+    </head>
+    <body>
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="i-bar"></span>
+                <span class="i-bar"></span>
+                <span class="i-bar"></span>
+              </a>
+              <a class="brand" href="{% url home %}">Krater</a>
+              <div class="nav-collapse">
+                <ul class="nav">
+                  <li class="active"><a href="#">Home</a></li>
+                  <li><a href="#about">About</a></li>
+                  <li><a href="#contact">Contact</a></li>
+                  <li><a href="">Wines</a></li>
+                  <li><a href="">Vineyards</a></li>
+                  <li><a href="">Varieties</a></li>
+                  <li><a href="">API</a></li>
+                  <li><a href="">Search</a></li>
+                </ul>
+              </div><!--/.nav-collapse -->
+            </div>
+          </div>
+        </div>
+
+        <div id="container">
+
+            {% block content %}
+            {% endblock content %}
+
+            <footer>
+            {% block footer %}
+            <ul>
+                <li><a href="">About</a></li>
+                <li><a href="">FAQ</a></li>
+                <li><a href="">Contact</a></li>
+            </ul>
+            {% endblock footer %}
+            </footer>
+
+        </div>
+
+        <!-- Le javascript -->
+        <script type="text/javascript"> 
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://" : "http://");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+        {% block extra_body %}
+        {% endblock extra_body %}
+
+    </body>
+</html>

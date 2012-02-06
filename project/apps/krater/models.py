@@ -3,18 +3,34 @@ from django.template.defaultfilters import slugify
 
 from djangotoolbox.fields import EmbeddedModelField
 from django_mongodb_engine.contrib import MongoDBManager
+from django.contrib.localflavor.us.models import USStateField
 
 
 class Point(models.Model):
+    """
+    A geographical location given by latitude and longitude
+    """
     latitude = models.FloatField()
     longitude = models.FloatField()
 
+    objects = MongoDBManager()
+
     def __unicode__(self):
-        return "%s / %s" % (self.latitude, self.longitude)
+        return "lat/lon - %s/%s" % (self.latitude, self.longitude)
 
 
 class Variety(models.Model):
-    name = models.CharField(max_length=200, unique=True, help_text="Varietal name")
+    """
+    The different varieties of wine grapes
+    """
+    VARIETY_CHOICES = (
+        ('red', 'Red'),
+        ('white', 'White'),
+    )
+    name = models.CharField(max_length=255, unique=True, help_text="Varietal name")
+    slug = models.SlugField(editable=False, unique=True)
+    color = models.CharField(max_length=25, choices=VARIETY_CHOICES)
+    description = models.TextField()
 
     objects = MongoDBManager()
 
@@ -23,6 +39,10 @@ class Variety(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Variety, self).save(*args, **kwargs)
 
 
 class Vineyard(models.Model):
@@ -37,20 +57,29 @@ class Vineyard(models.Model):
     # Embedded Models
     location = EmbeddedModelField(Point, null=True)
 
-    name = models.CharField(max_length=200, help_text="Vineyard name")
+    # TTB Information
+    permit_number = models.CharField(max_length=25, help_text="TTB Permit Number")
+    owner_name = models.CharField(max_length=255, help_text="Vineyard Owner Name")
+    operating_name = models.CharField(max_length=255, help_text="Vineyard Operating Name")
+    street = models.CharField(max_length=255, help_text="Street Name")
+    state = USStateField()
+    zipcode = models.CharField(max_length=10, help_text="Zip Code")
+    county = models.CharField(max_length=255, help_text="County Name")
+
+    # Extra Information
     slug = models.SlugField(editable=False, unique=True)
     url = models.URLField(verify_exists=True, help_text="Vineyard website")
 
     objects = MongoDBManager()
 
     class Meta:
-        ordering = ['name', ]
+        ordering = ['owner_name', ]
 
     def __unicode__(self):
-        return self.name
+        return self.owner_name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.owner_name)
         super(Vineyard, self).save(*args, **kwargs)
 
 

@@ -2,3 +2,5 @@ hg+https://bitbucket.org/wkornewald/django-nonrel
 hg+https://bitbucket.org/wkornewald/djangotoolbox
 git+https://github.com/django-nonrel/mongodb-engine
 hg+https://bitbucket.org/jespern/django-piston
+
+#git://github.com/toastdriven/django-tastypie.git

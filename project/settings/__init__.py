@@ -77,7 +77,8 @@ ROOT_URLCONF = 'urls'
 SECRET_KEY = '6cc3bf11675ef9b2d7b45d61f444c1decbf1bbf3d2a1b585e5'
 
 # The ID of the current site in the django_site database table
-SITE_ID = u'4f29d161213ca38657000021'
+#SITE_ID = u'4f29d161213ca38657000021'
+SITE_ID = u'4f2f25a4cb4a055317000021'
 
 # Absolute path to the directory where collectstatic will collect static files
 STATIC_ROOT = ''

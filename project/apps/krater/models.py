@@ -9,6 +9,9 @@ class Point(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
 
+    def __unicode__(self):
+        return "%s / %s" % (self.latitude, self.longitude)
+
 
 class Variety(models.Model):
     name = models.CharField(max_length=200, unique=True, help_text="Varietal name")
@@ -27,7 +30,7 @@ class Vineyard(models.Model):
     Vineyard is a place that produces wine.
 
     Ensure you do the following in mongo to allow geospatial queries:
-    > use krater_vineyard
+    > use krater_development
     > db.krater_vineyard.ensureIndex( { location : "2d" } )
     """
 

@@ -37,6 +37,7 @@ class VineyardHandler(BaseHandler):
               'owner_name',
               'operating_name',
               'street',
+              'city',
               'state',
               'zipcode',
               'county',

@@ -55,13 +55,14 @@ class Vineyard(models.Model):
     """
 
     # Embedded Models
-    location = EmbeddedModelField(Point, null=True)
+    location = EmbeddedModelField(Point, blank=True, null=True)
 
     # TTB Information
     permit_number = models.CharField(max_length=25, help_text="TTB Permit Number")
     owner_name = models.CharField(max_length=255, help_text="Vineyard Owner Name")
     operating_name = models.CharField(max_length=255, help_text="Vineyard Operating Name")
     street = models.CharField(max_length=255, help_text="Street Name")
+    city = models.CharField(max_length=255, help_text="City Name")
     state = USStateField()
     zipcode = models.CharField(max_length=10, help_text="Zip Code")
     county = models.CharField(max_length=255, help_text="County Name")

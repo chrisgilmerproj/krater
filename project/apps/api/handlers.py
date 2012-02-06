@@ -33,7 +33,13 @@ class VineyardHandler(BaseHandler):
     allowed_methods = ('GET',)
     model = Vineyard
     fields = ('id',
-              'name',
+              'permit_number',
+              'owner_name',
+              'operating_name',
+              'street',
+              'state',
+              'zipcode',
+              'county',
               'slug',
               'url',
               ('location', ('latitude', 'longitude')),

@@ -42,7 +42,6 @@ INSTALLED_APPS = (
 
     'django_mongodb_engine',
 
-    'api',
     'krater',
 )
 

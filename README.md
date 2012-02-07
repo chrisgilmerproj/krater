@@ -3,6 +3,11 @@
 This is a small api for wine lovers
 
 
+# Installation
+
+    pip install -r requirements/base.txt
+    brew install mongodb
+
 ## Useful Links
 
 - Twitter Bootstrap: http://twitter.github.com/bootstrap/index.html

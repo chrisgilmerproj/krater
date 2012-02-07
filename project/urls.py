@@ -3,7 +3,14 @@ from django.conf.urls.defaults import include, patterns, url
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
+from tastypie.api import Api
 
+from apps.krater.api import VarietyResource, VineyardResource, WineResource
+
+v1_api = Api(api_name='v1')
+v1_api.register(VarietyResource())
+v1_api.register(VineyardResource())
+v1_api.register(WineResource())
 
 admin.autodiscover()
 
@@ -12,7 +19,7 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
-    url(r'^api/', include('apps.api.urls')),
+    url(r'^api/', include(v1_api.urls)),
 )
 
 # Static URLs

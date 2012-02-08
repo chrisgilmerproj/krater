@@ -6,6 +6,8 @@ class VarietyResource(ModelResource):
     class Meta:
         allowed_methods = ['get']
         queryset = Variety.objects.all()
+        #Variety._meta['fields'] = Variety._fields
+        queryset.model = Variety
         resource_name = 'variety'
         fields = ('id',
                   'name',

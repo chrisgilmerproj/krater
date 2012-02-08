@@ -1,25 +1,20 @@
-from django.db import models
 from django.template.defaultfilters import slugify
 
-from djangotoolbox.fields import EmbeddedModelField
-from django_mongodb_engine.contrib import MongoDBManager
-from django.contrib.localflavor.us.models import USStateField
+import mongoengine
 
 
-class Point(models.Model):
+class Point(mongoengine.EmbeddedDocument):
     """
     A geographical location given by latitude and longitude
     """
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-
-    objects = MongoDBManager()
+    latitude = mongoengine.FloatField()
+    longitude = mongoengine.FloatField()
 
     def __unicode__(self):
         return "lat/lon - %s/%s" % (self.latitude, self.longitude)
 
 
-class Variety(models.Model):
+class Variety(mongoengine.Document):
     """
     The different varieties of wine grapes
     """
@@ -27,12 +22,10 @@ class Variety(models.Model):
         ('red', 'Red'),
         ('white', 'White'),
     )
-    name = models.CharField(max_length=255, unique=True, help_text="Varietal name")
-    slug = models.SlugField(editable=False, unique=True)
-    color = models.CharField(max_length=25, choices=VARIETY_CHOICES)
-    description = models.TextField()
-
-    objects = MongoDBManager()
+    name = mongoengine.StringField(max_length=255, unique=True, help_text="Varietal name")
+    slug = mongoengine.StringField(unique=True)
+    color = mongoengine.StringField(max_length=25, choices=VARIETY_CHOICES)
+    description = mongoengine.StringField()
 
     class Meta:
         ordering = ['name', ]
@@ -45,7 +38,7 @@ class Variety(models.Model):
         super(Variety, self).save(*args, **kwargs)
 
 
-class Vineyard(models.Model):
+class Vineyard(mongoengine.Document):
     """
     Vineyard is a place that produces wine.
 
@@ -55,23 +48,21 @@ class Vineyard(models.Model):
     """
 
     # Embedded Models
-    location = EmbeddedModelField(Point, blank=True, null=True)
+    location = mongoengine.EmbeddedDocumentField(Point)
 
     # TTB Information
-    permit_number = models.CharField(max_length=25, help_text="TTB Permit Number")
-    owner_name = models.CharField(max_length=255, help_text="Vineyard Owner Name")
-    operating_name = models.CharField(max_length=255, help_text="Vineyard Operating Name")
-    street = models.CharField(max_length=255, help_text="Street Name")
-    city = models.CharField(max_length=255, help_text="City Name")
-    state = USStateField()
-    zipcode = models.CharField(max_length=10, help_text="Zip Code")
-    county = models.CharField(max_length=255, help_text="County Name")
+    permit_number = mongoengine.StringField(max_length=25, help_text="TTB Permit Number")
+    owner_name = mongoengine.StringField(max_length=255, help_text="Vineyard Owner Name")
+    operating_name = mongoengine.StringField(max_length=255, help_text="Vineyard Operating Name")
+    street = mongoengine.StringField(max_length=255, help_text="Street Name")
+    city = mongoengine.StringField(max_length=255, help_text="City Name")
+    state = mongoengine.StringField(max_length=255, help_text="State Name")
+    zipcode = mongoengine.StringField(max_length=10, help_text="Zip Code")
+    county = mongoengine.StringField(max_length=255, help_text="County Name")
 
     # Extra Information
-    slug = models.SlugField(editable=False, unique=True)
-    url = models.URLField(verify_exists=True, help_text="Vineyard website")
-
-    objects = MongoDBManager()
+    slug = mongoengine.StringField(unique=True)
+    url = mongoengine.URLField(verify_exists=True, help_text="Vineyard website")
 
     class Meta:
         ordering = ['owner_name', ]
@@ -84,28 +75,26 @@ class Vineyard(models.Model):
         super(Vineyard, self).save(*args, **kwargs)
 
 
-class Wine(models.Model):
+class Wine(mongoengine.Document):
 
     # Embedded Models
-    variety = EmbeddedModelField('Variety')
-    vineyard = EmbeddedModelField('Vineyard')
+    variety = mongoengine.ReferenceField(Variety)
+    vineyard = mongoengine.ReferenceField(Vineyard)
 
-    name = models.CharField(max_length=200, help_text="Name of the wine")
-    year = models.PositiveIntegerField(help_text="Year on label")
-    appelation = models.CharField(max_length=200, blank=True, help_text="Region of wine")
+    name = mongoengine.StringField(max_length=200, help_text="Name of the wine")
+    year = mongoengine.IntField(help_text="Year on label")
+    appelation = mongoengine.StringField(max_length=200, help_text="Region of wine")
 
-    composition = models.TextField(blank=True, help_text="Composition of blended wines")
-    aroma = models.TextField(blank=True, help_text="Primary and secondary aromas")
-    bouquet = models.TextField(blank=True, help_text="Tertiary aromas")
+    composition = mongoengine.StringField(help_text="Composition of blended wines")
+    aroma = mongoengine.StringField(help_text="Primary and secondary aromas")
+    bouquet = mongoengine.StringField(help_text="Tertiary aromas")
 
-    alcohol = models.FloatField(blank=True, null=True, help_text="Alcohol by Volume")
-    sulfites = models.BooleanField(default=False, help_text="Contains Sulfites")
-    ta = models.FloatField("TA", blank=True, null=True, help_text="titratable acidity")
-    ph = models.FloatField("pH", blank=True, null=True, help_text="pH")
-    aging = models.CharField(max_length=200, blank=True, help_text="Notes on aging")
-    skin_contact = models.CharField(max_length=200, blank=True, help_text="Duration of skin contact")
-
-    objects = MongoDBManager()
+    alcohol = mongoengine.FloatField(help_text="Alcohol by Volume")
+    sulfites = mongoengine.BooleanField(default=False, help_text="Contains Sulfites")
+    ta = mongoengine.FloatField("TA", help_text="titratable acidity")
+    ph = mongoengine.FloatField("pH", help_text="pH")
+    aging = mongoengine.StringField(max_length=200, help_text="Notes on aging")
+    skin_contact = mongoengine.StringField(max_length=200, help_text="Duration of skin contact")
 
     class Meta:
         ordering = ['variety', 'name', ]

@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls.defaults import include, patterns, url
-from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 from tastypie.api import Api
@@ -12,11 +11,8 @@ v1_api.register(VarietyResource())
 v1_api.register(VineyardResource())
 v1_api.register(WineResource())
 
-admin.autodiscover()
-
 urlpatterns = patterns('',
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
+    (r'^admin/', include('mongonaut.urls')),
 
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
     url(r'^api/', include(v1_api.urls)),

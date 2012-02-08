@@ -12,7 +12,7 @@ ADMINS = (('Your admin name', 'admin@example.com'),)
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_mongodb_engine',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'krater_development',
     }
 }
@@ -31,8 +31,6 @@ FIXTURE_DIRS = ()
 
 # A tuple of strings designating all the enabled applications
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
@@ -40,8 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
 
-    'django_mongodb_engine',
-
+    'mongonaut',
     'krater',
 )
 
@@ -131,6 +128,19 @@ USE_I18N = False
 
 # Display numbers and dates using the format of the current locale
 USE_L10N = False
+
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
+SESSION_ENGINE = 'mongoengine.django.sessions'
+
+# mongodb connection
+from mongoengine import connect
+connect('krater_development')
+
+MONGONAUT_JQUERY = "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+MONGONAUT_TWITTER_BOOTSTRAP = "http://twitter.github.com/bootstrap/assets/css/bootstrap.css"
+MONGONAUT_TWITTER_BOOTSTRAP_ALERT = "http://twitter.github.com/bootstrap/assets/js/bootstrap-alert.js"
 
 # Import local settings
 try:

@@ -27,9 +27,6 @@ class Variety(mongoengine.Document):
     color = mongoengine.StringField(max_length=25, choices=VARIETY_CHOICES)
     description = mongoengine.StringField()
 
-    class Meta:
-        ordering = ['name', ]
-
     def __unicode__(self):
         return self.name
 
@@ -64,9 +61,6 @@ class Vineyard(mongoengine.Document):
     slug = mongoengine.StringField(unique=True)
     url = mongoengine.URLField(verify_exists=True, help_text="Vineyard website")
 
-    class Meta:
-        ordering = ['owner_name', ]
-
     def __unicode__(self):
         return self.owner_name
 
@@ -95,9 +89,6 @@ class Wine(mongoengine.Document):
     ph = mongoengine.FloatField("pH", help_text="pH")
     aging = mongoengine.StringField(max_length=200, help_text="Notes on aging")
     skin_contact = mongoengine.StringField(max_length=200, help_text="Duration of skin contact")
-
-    class Meta:
-        ordering = ['variety', 'name', ]
 
     def __unicode__(self):
         return "%s %s %s, %s" % (self.name, self.variety, self.year, self.vineyard)

@@ -1,12 +1,114 @@
+from tastypie import fields
 from tastypie.resources import ModelResource
+import mongoengine
+
 from apps.krater.models import Variety, Vineyard, Wine
 
 
-class VarietyResource(ModelResource):
+class MongoResource(ModelResource):
+
+    def get_object_list(self, request):
+        return self._meta.queryset
+
+    @classmethod
+    def get_fields(cls, fields=None, excludes=None):
+        """
+        Given any explicit fields to include and fields to exclude, add
+        additional fields based on the associated model.
+        """
+        final_fields = {}
+        fields = fields or []
+        excludes = excludes or []
+
+        if not cls._meta.object_class:
+            return final_fields
+
+        for n, f in cls._meta.object_class._fields.iteritems():
+
+            # If the field name is already present, skip
+            if f.name in cls.base_fields:
+                continue
+
+            # If field is not present in explicit field listing, skip
+            if fields and f.name not in fields:
+                continue
+
+            # If field is in exclude list, skip
+            if excludes and f.name in excludes:
+                continue
+
+            api_field_class = cls.api_field_from_mongo_field(f)
+
+            kwargs = {
+                'attribute': f.name,
+                'help_text': f.help_text,
+            }
+
+            kwargs['unique'] = f.unique
+
+            if f.default:
+                kwargs['default'] = f.default
+
+            final_fields[f.name] = api_field_class(**kwargs)
+            final_fields[f.name].instance_name = f.name
+
+        return final_fields
+
+    @classmethod
+    def api_field_from_mongo_field(cls, f, default=fields.CharField):
+        """
+        Returns the field type that would likely be associated with each
+        Mongo type.
+        """
+        result = default
+
+        if isinstance(f, (mongoengine.DateTimeField, mongoengine.ComplexDateTimeField)):
+            result = fields.DateTimeField
+        elif isinstance(f, mongoengine.BooleanField):
+            result = fields.BooleanField
+        elif isinstance(f, mongoengine.FloatField):
+            result = fields.FloatField
+        elif isinstance(f, mongoengine.DecimalField):
+            result = fields.DecimalField
+        elif isinstance(f, mongoengine.IntField):
+            result = fields.IntegerField
+        elif isinstance(f, mongoengine.FileField):
+            result = fields.FileField
+        #elif isinstance(f, mongoengine.EmbeddedDocumentField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.ListField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.DictField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.ObjectIdField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.ReferenceField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.MapField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.URLField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.GenericReferenceField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.BinaryField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.SortedListField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.EmailField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.GeoPointField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.SequenceField):
+        #    result = fields.??
+        #elif isinstance(f, mongoengine.GenericEmbeddedDocumentField):
+        #    result = fields.??
+        return result
+
+
+class VarietyResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
-        queryset = Variety.objects.all()
-        #Variety._meta['fields'] = Variety._fields
+        queryset = Variety.objects
         queryset.model = Variety
         resource_name = 'variety'
         fields = ('id',
@@ -17,10 +119,11 @@ class VarietyResource(ModelResource):
                  )
 
 
-class VineyardResource(ModelResource):
+class VineyardResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
-        queryset = Vineyard.objects.all()
+        queryset = Vineyard.objects
+        queryset.model = Vineyard
         resource_name = 'vineyard'
         fields = ('id',
                   'permit_number',
@@ -70,10 +173,11 @@ class VineyardResource(ModelResource):
         return super(VineyardResource, self).get_object_list(request)
 
 
-class WineResource(ModelResource):
+class WineResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
-        queryset = Wine.objects.all()
+        queryset = Wine.objects
+        queryset.model = Wine
         resource_name = 'wine'
         fields = ('id',
                   'name',

@@ -1,6 +1,7 @@
 from tastypie import fields
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.resources import ModelResource
+from tastypie.serializers import Serializer
 import mongoengine
 
 from apps.krater.fields import ListField, DictField
@@ -114,6 +115,7 @@ class VarietyResource(MongoResource):
         queryset = Variety.objects
         queryset.model = Variety
         resource_name = 'variety'
+        serializer = Serializer(['json', 'xml', 'yaml'])
         fields = ('id',
                   'name',
                   'slug',
@@ -129,6 +131,7 @@ class VineyardResource(MongoResource):
         queryset = Vineyard.objects
         queryset.model = Vineyard
         resource_name = 'vineyard'
+        serializer = Serializer(['json', 'xml', 'yaml'])
         fields = ('id',
                   'permit_number',
                   'owner_name',
@@ -183,6 +186,7 @@ class WineResource(MongoResource):
         queryset = Wine.objects
         queryset.model = Wine
         resource_name = 'wine'
+        serializer = Serializer(['json', 'xml', 'yaml'])
         fields = ('id',
                   'name',
                   'year',

@@ -2,6 +2,7 @@ from tastypie import fields
 from tastypie.resources import ModelResource
 import mongoengine
 
+from apps.krater.fields import ListField, DictField
 from apps.krater.models import Variety, Vineyard, Wine
 
 
@@ -74,11 +75,11 @@ class MongoResource(ModelResource):
             result = fields.IntegerField
         elif isinstance(f, mongoengine.FileField):
             result = fields.FileField
+        elif isinstance(f, mongoengine.ListField):
+            result = ListField
+        elif isinstance(f, mongoengine.DictField):
+            result = DictField
         #elif isinstance(f, mongoengine.EmbeddedDocumentField):
-        #    result = fields.??
-        #elif isinstance(f, mongoengine.ListField):
-        #    result = fields.??
-        #elif isinstance(f, mongoengine.DictField):
         #    result = fields.??
         #elif isinstance(f, mongoengine.ObjectIdField):
         #    result = fields.??

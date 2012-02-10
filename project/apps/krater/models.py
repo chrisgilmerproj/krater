@@ -1,6 +1,12 @@
+from django.contrib.auth.models import User
+from django.db import models
 from django.template.defaultfilters import slugify
 
 import mongoengine
+from tastypie.models import create_api_key
+
+# Ensure API key is created for new users
+models.signals.post_save.connect(create_api_key, sender=User)
 
 
 class Variety(mongoengine.Document):

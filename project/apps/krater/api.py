@@ -1,4 +1,5 @@
 from tastypie import fields
+from tastypie.authentication import ApiKeyAuthentication
 from tastypie.resources import ModelResource
 import mongoengine
 
@@ -109,6 +110,7 @@ class MongoResource(ModelResource):
 class VarietyResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
+        authentication = ApiKeyAuthentication()
         queryset = Variety.objects
         queryset.model = Variety
         resource_name = 'variety'
@@ -123,6 +125,7 @@ class VarietyResource(MongoResource):
 class VineyardResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
+        authentication = ApiKeyAuthentication()
         queryset = Vineyard.objects
         queryset.model = Vineyard
         resource_name = 'vineyard'
@@ -176,6 +179,7 @@ class VineyardResource(MongoResource):
 class WineResource(MongoResource):
     class Meta:
         allowed_methods = ['get']
+        authentication = ApiKeyAuthentication()
         queryset = Wine.objects
         queryset.model = Wine
         resource_name = 'wine'

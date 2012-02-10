@@ -3,5 +3,5 @@ django-tastypie==0.9.11
 django-mongonaut==0.2.10
 mongoengine==0.5.2
 pymongo==2.1.1
-lxml
-pyyaml
+lxml==2.3.3
+PyYAML==3.10

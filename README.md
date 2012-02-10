@@ -12,6 +12,7 @@ This is a small api for wine lovers
 
 - Django: https://github.com/django/django
 - Django Tastypie: https://github.com/toastdriven/django-tastypie
+- Django Tastypie Nonrel: https://github.com/andresdouglas/django-tastypie-nonrel
 - Django Mongonaut: https://github.com/pydanny/django-mongonaut
 - Mongoengine: https://github.com/hmarr/mongoengine
 - Twitter Bootstrap: https://github.com/twitter/bootstrap/

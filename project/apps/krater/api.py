@@ -165,12 +165,8 @@ class VineyardResource(MongoResource):
             elif units == 'ft':
                 radius = radius / (69.0 * 5280.0)  # 5280ft per mi
             else:
-                raise Exception('Units are wrong')
+                raise Exception('Units must be km/m/mi/ft')
             #center = {'latitude': lat, 'longitude': lon}
-
-            #return Vineyard.objects.raw_query({'location' : {'$near' : here}})
-            #return Vineyard.objects.raw_query({"location": {"$within": {"$center": [center, radius]}}})[:limit]
-
             #return Vineyard.objects(__raw__={"location": {"$within": {"$center": [center, radius]}}})[:limit]
             return Vineyard.objects(location__within_distance=[(lat, lon), radius])[:limit]
         return super(VineyardResource, self).get_object_list(request)[:limit]

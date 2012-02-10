@@ -55,6 +55,8 @@ class Vineyard(mongoengine.Document):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.owner_name)
+        if isinstance(self.location, (basestring, unicode)):
+            self.location = [float(point) for point in self.location.strip('[]').split(',')]
         super(Vineyard, self).save(*args, **kwargs)
 
 

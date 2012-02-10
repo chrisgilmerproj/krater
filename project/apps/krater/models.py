@@ -3,17 +3,6 @@ from django.template.defaultfilters import slugify
 import mongoengine
 
 
-class Point(mongoengine.EmbeddedDocument):
-    """
-    A geographical location given by latitude and longitude
-    """
-    latitude = mongoengine.FloatField()
-    longitude = mongoengine.FloatField()
-
-    def __unicode__(self):
-        return "lat/lon - %s/%s" % (self.latitude, self.longitude)
-
-
 class Variety(mongoengine.Document):
     """
     The different varieties of wine grapes
@@ -45,7 +34,7 @@ class Vineyard(mongoengine.Document):
     """
 
     # Embedded Models
-    location = mongoengine.EmbeddedDocumentField(Point)
+    location = mongoengine.GeoPointField(help_text="Latitude and Longitude")
 
     # TTB Information
     permit_number = mongoengine.StringField(max_length=25, help_text="TTB Permit Number")

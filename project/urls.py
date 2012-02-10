@@ -15,7 +15,13 @@ urlpatterns = patterns('',
     (r'^admin/', include('mongonaut.urls')),
 
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
+    url(r'^about$', TemplateView.as_view(template_name='about.html'), name="about"),
+    url(r'^wines$', TemplateView.as_view(template_name='wines.html'), name="wines"),
+    url(r'^vineyards$', TemplateView.as_view(template_name='vineyards.html'), name="vineyards"),
+    url(r'^varieties$', TemplateView.as_view(template_name='varieties.html'), name="varieties"),
     url(r'^api/', include(v1_api.urls)),
+    url(r'^api/documentation$', TemplateView.as_view(template_name='api_docs.html'), name="api_docs"),
+    url(r'^search$', TemplateView.as_view(template_name='search.html'), name="search"),
 )
 
 # Static URLs

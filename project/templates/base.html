@@ -41,13 +41,12 @@
               <a class="brand" href="{% url home %}">Krater</a>
               <div class="nav-collapse">
                 <ul class="nav">
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#about">About</a></li>
-                  <li><a href="#wines">Wines</a></li>
-                  <li><a href="#vineyards">Vineyards</a></li>
-                  <li><a href="#varieties">Varieties</a></li>
-                  <li><a href="#api">API</a></li>
-                  <li><a href="#search">Search</a></li>
+                  <li><a href="{% url about %}">About</a></li>
+                  <li><a href="{% url wines %}">Wines</a></li>
+                  <li><a href="{% url vineyards %}">Vineyards</a></li>
+                  <li><a href="{% url varieties %}">Varieties</a></li>
+                  <li><a href="{% url api_docs %}">API</a></li>
+                  <li><a href="{% url search %}">Search</a></li>
                 </ul>
               </div><!--/.nav-collapse -->
             </div>

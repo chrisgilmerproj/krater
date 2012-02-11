@@ -12,7 +12,8 @@ v1_api.register(VineyardResource())
 v1_api.register(WineResource())
 
 urlpatterns = patterns('',
-    (r'^admin/', include('mongonaut.urls')),
+    url(r'^admin/', include('mongonaut.urls')),
+    url(r'', include('social_auth.urls')),
 
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
     url(r'^about$', TemplateView.as_view(template_name='about.html'), name="about"),
@@ -21,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^varieties$', TemplateView.as_view(template_name='varieties.html'), name="varieties"),
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/documentation$', TemplateView.as_view(template_name='api_docs.html'), name="api_docs"),
+    #url(r'^api/register$', TemplateView.as_view(template_name='api_register.html'), name="api_register"),
     url(r'^search$', TemplateView.as_view(template_name='search.html'), name="search"),
 )
 

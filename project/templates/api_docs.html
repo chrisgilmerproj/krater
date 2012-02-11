@@ -34,6 +34,34 @@
           <p><a class="btn" href="{% url api_get_schema "v1" "variety" %}?format=json">View schema &raquo;</a></p>
         </div>
       </div>
-
       <hr>
+
+      <ul id="tab" class="nav nav-tabs">
+        <li class="active"><a href="#wine" data-toggle="tab">The Wines</a></li>
+        <li><a href="#vineyard" data-toggle="tab">The Vineyards</a></li>
+        <li><a href="#variety" data-toggle="tab">The Varieties</a></li>
+      </ul>
+
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane active" id="wine">
+            <p>AAAAAAAA</p>
+        </div>
+        <div class="tab-pane" id="vineyard">
+            <p>BBBBBBBB</p>
+        </div>
+        <div class="tab-pane" id="variety">
+            <p>CCCCCCCC</p>
+        </div>
+      </div>
+
 {% endblock %}
+
+{% block extra_body %}
+<script>
+  $('.tab').tabs('show');
+  $('a[data-toggle="tab"]').on('shown', function (e) {
+    e.target // activated tab
+    e.relatedTarget // previous tab
+  });
+</script>
+{% endblock extra_body %}

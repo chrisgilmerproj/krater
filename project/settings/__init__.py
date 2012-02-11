@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'mongonaut',
+    'social_auth',
     'tastypie',
 
     'krater',
@@ -100,6 +101,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
+    'social_auth.context_processors.social_auth_by_name_backends',
+    #'social_auth.context_processors.social_auth_backends', # Do not use with social_auth_by_type_backends
+    'social_auth.context_processors.social_auth_by_type_backends', # Do not use with social_auth_backends
 )
 
 # Display a detailed report for any TemplateSyntaxError.
@@ -132,8 +136,28 @@ USE_I18N = False
 USE_L10N = False
 
 AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
     'mongoengine.django.auth.MongoEngineBackend',
 )
+SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'google-oauth', 'facebook', 'twitter')
+
+TWITTER_CONSUMER_KEY = ''
+TWITTER_CONSUMER_SECRET = ''
+FACEBOOK_APP_ID = ''
+FACEBOOK_API_SECRET = ''
+GOOGLE_CONSUMER_KEY = ''
+GOOGLE_CONSUMER_SECRET = ''
+GOOGLE_OAUTH2_CLIENT_ID = ''
+GOOGLE_OAUTH2_CLIENT_SECRET = ''
+
+LOGIN_URL = '/login-form/'
+LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_ERROR_URL = '/login-error/'
+
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
 # mongodb connection

@@ -34,9 +34,9 @@
           <div class="navbar-inner">
             <div class="container">
               <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="i-bar"></span>
-                <span class="i-bar"></span>
-                <span class="i-bar"></span>
+                <span class="icon-bar">abcd</span>
+                <span class="icon-bar">abdd</span>
+                <span class="icon-bar">aaaa</span>
               </a>
               <a class="brand" href="{% url home %}">Krater</a>
               <div class="nav-collapse">
@@ -46,7 +46,14 @@
                   <li><a href="{% url vineyards %}">Vineyards</a></li>
                   <li><a href="{% url varieties %}">Varieties</a></li>
                   <li><a href="{% url api_docs %}">API</a></li>
-                  <li><a href="{% url search %}">Search</a></li>
+                </ul>
+                <form class="navbar-search pull-left" action="{% url search %}" >
+                  <input type="text" class="search-query" placeholder="Search">
+                </form>
+                <ul class="nav pull-right">
+                  <li><a href="{% url socialauth_begin "facebook" %}"><img src="{{STATIC_URL}}img/icons/facebook-small.png" /></a></li>
+                  <li><a href="{% url socialauth_begin "twitter" %}"><img src="{{STATIC_URL}}img/icons/twitter-small.png" /></a></li>
+                  <li><a href="{% url socialauth_begin "google-oauth2" %}"><img src="{{STATIC_URL}}img/icons/gplus-small.png" /></a></li>
                 </ul>
               </div><!--/.nav-collapse -->
             </div>
@@ -77,8 +84,9 @@
         </script>
         <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
         <script src="{{STATIC_URL}}js/bootstrap.min.js"></script>
-        <script src="{{STATIC_URL}}js/bootstrap-transition.js"></script>
         <script src="{{STATIC_URL}}js/bootstrap-collapse.js"></script>
+        <script src="{{STATIC_URL}}js/bootstrap-tab.js"></script>
+        <script src="{{STATIC_URL}}js/bootstrap-transition.js"></script>
         {% block extra_body %}
         {% endblock extra_body %}
 

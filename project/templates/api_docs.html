@@ -41,10 +41,20 @@
         <li><a href="#vineyard" data-toggle="tab">The Vineyards</a></li>
         <li><a href="#variety" data-toggle="tab">The Varieties</a></li>
       </ul>
-
       <div id="myTabContent" class="tab-content">
         <div class="tab-pane active" id="wine">
-            <p>AAAAAAAA</p>
+            <dl>
+                <dt>Endpoint: </dt>
+                <dd><code>wines</code></dd>
+                <dt>Description: </dt>
+                <dd>This is a description</dd>
+                <dt>Parameters:</dt>
+                <dd>
+                    <ul>
+                        <li>one</li>
+                    </ul>
+                </dd>
+            </dl>
         </div>
         <div class="tab-pane" id="vineyard">
             <p>BBBBBBBB</p>
@@ -57,11 +67,4 @@
 {% endblock %}
 
 {% block extra_body %}
-<script>
-  $('.tab').tabs('show');
-  $('a[data-toggle="tab"]').on('shown', function (e) {
-    e.target // activated tab
-    e.relatedTarget // previous tab
-  });
-</script>
 {% endblock extra_body %}

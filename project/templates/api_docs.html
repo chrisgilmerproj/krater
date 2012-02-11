@@ -3,7 +3,7 @@
 {% block title %}API Documentation{% endblock title %}
 
 {% block content %}
-      <div class="hero-unit">
+    <div class="hero-unit">
         <h1>API Documentation</h1>
         <p>
             The API is provided to help you make your own applications around the wine you love to drink.
@@ -14,27 +14,26 @@
             Make all GET requests to <code>http://www.krater.com/api/&lt;endpoint&gt;</code>
         </p>
         <p><a class="btn btn-primary btn-large" href="{% url api_v1_top_level "v1" %}?format=json">Get started now &raquo;</a></p>
-      </div>
+    </div>
 
-      <!-- Example row of columns -->
-      <div class="row">
+    <div class="row">
         <div class="span4">
-          <h2>The Wines</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <h2>The Wines</h2>
+            <p>The description goes here</p>
         </div>
         <div class="span4">
-          <h2>The Vineyards</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-       </div>
+            <h2>The Vineyards</h2>
+            <p>The description goes here</p>
+        </div>
 
         <div class="span4">
-          <h2>The API</h2>
+            <h2>The API</h2>
             <ul id="tab" class="nav nav-tabs">
-              <li class="active"><a href="#wine" data-toggle="tab">The Wines</a></li>
-              <li><a href="#vineyard" data-toggle="tab">The Vineyards</a></li>
-              <li><a href="#variety" data-toggle="tab">The Varieties</a></li>
+                <li class="active"><a href="#wine" data-toggle="tab">The Wines</a></li>
+                <li><a href="#vineyard" data-toggle="tab">The Vineyards</a></li>
+                <li><a href="#variety" data-toggle="tab">The Varieties</a></li>
             </ul>
-            <div id="myTabContent" class="tab-content">
+            <div class="tab-content">
                 <div class="tab-pane active" id="wine">
                     <dl>
                         <dt>Endpoint: </dt>
@@ -82,8 +81,8 @@
                 </div>
             </div>
         </div>
-      </div>
-      <hr>
+    </div>
+    <hr>
 
 {% endblock %}
 

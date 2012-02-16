@@ -37,3 +37,28 @@ class UserSocialAuth(mongoengine.Document):
             except (ValueError, TypeError):
                 pass
         return None
+
+
+class Nonce(mongoengine.Document):
+    """One use numbers"""
+    server_url = mongoengine.StringField()
+    timestamp = mongoengine.IntField()
+    salt = mongoengine.StringField()
+
+    def __unicode__(self):
+        """Unicode representation"""
+        return self.server_url
+
+
+class Association(mongoengine.Document):
+    """OpenId account association"""
+    server_url = mongoengine.StringField()
+    handle = mongoengine.StringField()
+    secret = mongoengine.StringField()  # Stored base64 encoded
+    issued = mongoengine.IntField()
+    lifetime = mongoengine.IntField()
+    assoc_type = mongoengine.StringField()
+
+    def __unicode__(self):
+        """Unicode representation"""
+        return '%s %s' % (self.handle, self.issued)

@@ -145,7 +145,7 @@ AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'google-oauth', 'facebook', 'twitter')
-
+SOCIAL_AUTH_USER_SOCIAL_AUTH_MODEL = 'apps.accounts.models.UserSocialAuth'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
 # mongodb connection

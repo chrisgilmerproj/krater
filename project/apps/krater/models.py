@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 
 import mongoengine
+from mongoengine.django.auth import User
 from tastypie.models import create_api_key
 
 # Ensure API key is created for new users

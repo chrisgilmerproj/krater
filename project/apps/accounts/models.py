@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.conf import settings
 import mongoengine
 from mongoengine.django.auth import User
+from mongoengine.queryset import DoesNotExist
 
 
 class UserSocialAuth(mongoengine.Document):
@@ -37,6 +38,8 @@ class UserSocialAuth(mongoengine.Document):
             except (ValueError, TypeError):
                 pass
         return None
+
+setattr(UserSocialAuth, 'DoesNotExist', DoesNotExist)
 
 
 class Nonce(mongoengine.Document):

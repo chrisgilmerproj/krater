@@ -148,6 +148,7 @@ AUTHENTICATION_BACKENDS = (
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
 SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'google-oauth', 'facebook', 'twitter')
+SOCIAL_AUTH_USER_MODEL = 'mongoengine.django.auth.User'
 SOCIAL_AUTH_USER_SOCIAL_AUTH_MODEL = 'apps.accounts.models.UserSocialAuth'
 SOCIAL_AUTH_NONCE_MODEL = 'apps.accounts.models.Nonce'
 SOCIAL_AUTH_ASSOCIATION_MODEL = 'apps.accounts.models.Association'

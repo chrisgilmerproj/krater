@@ -32,9 +32,9 @@ class UserSocialAuth(mongoengine.Document):
         value stored or it's malformed.
         """
         if self.extra_data:
-            name = getattr(settings, 'SOCIAL_AUTH_EXPIRATION', 'expires')
+            expires = getattr(settings, 'SOCIAL_AUTH_EXPIRATION', 'expires')
             try:
-                return timedelta(seconds=int(self.extra_data.get(name)))
+                return timedelta(seconds=int(self.extra_data.get(expires)))
             except (ValueError, TypeError):
                 pass
         return None

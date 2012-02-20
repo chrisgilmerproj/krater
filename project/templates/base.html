@@ -51,9 +51,13 @@
                   <input type="text" class="search-query" placeholder="Search">
                 </form>
                 <ul class="nav pull-right">
-                  <li><a rel="nofollow" href="{% url socialauth_begin "facebook" %}"><img src="{{STATIC_URL}}img/icons/facebook-small.png" /></a></li>
-                  <li><a rel="nofollow" href="{% url socialauth_begin "twitter" %}"><img src="{{STATIC_URL}}img/icons/twitter-small.png" /></a></li>
-                  <li><a rel="nofollow" href="{% url socialauth_begin "google-oauth2" %}"><img src="{{STATIC_URL}}img/icons/gplus-small.png" /></a></li>
+                  {% for provider, account in social_auth.items %}
+                  <li {% if account %}class="{{account}}"{% endif %}>
+                    <a rel="nofollow" href="{% url socialauth_begin provider %}">
+                        <img src="{{STATIC_URL}}img/icons/{{provider}}-small.png" />
+                    </a>
+                  </li>
+                  {% endfor %}
                 </ul>
               </div><!--/.nav-collapse -->
             </div>

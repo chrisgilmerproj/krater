@@ -104,7 +104,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     'social_auth.context_processors.social_auth_by_name_backends',
     #'social_auth.context_processors.social_auth_backends', # Do not use with social_auth_by_type_backends
-    'social_auth.context_processors.social_auth_by_type_backends', # Do not use with social_auth_backends
+    #'social_auth.context_processors.social_auth_by_type_backends', # Do not use with social_auth_backends
 )
 
 # Display a detailed report for any TemplateSyntaxError.
@@ -139,15 +139,13 @@ USE_L10N = False
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
-SOCIAL_AUTH_ENABLED_BACKENDS = ('google', 'google-oauth', 'facebook', 'twitter')
+SOCIAL_AUTH_ENABLED_BACKENDS = ('google-oauth2', 'facebook', 'twitter')
 SOCIAL_AUTH_USER_MODEL = 'mongoengine.django.auth.User'
 SOCIAL_AUTH_USER_SOCIAL_AUTH_MODEL = 'apps.accounts.models.UserSocialAuth'
 SOCIAL_AUTH_NONCE_MODEL = 'apps.accounts.models.Nonce'

@@ -15,7 +15,7 @@ class UserSocialAuth(mongoengine.Document):
     """
     user = mongoengine.ReferenceField(User)
     provider = mongoengine.StringField(unique_with='uid')
-    uid = mongoengine.IntField(unique=True)
+    uid = mongoengine.StringField(unique=True)
     extra_data = mongoengine.DictField()
 
     class Meta:

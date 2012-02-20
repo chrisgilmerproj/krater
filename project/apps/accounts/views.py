@@ -1,9 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.api import get_messages
+from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response, redirect
-from django.contrib.messages.api import get_messages
 
 from social_auth import __version__ as version
 from social_auth.utils import setting
@@ -38,5 +39,5 @@ def form(request):
         name = setting('SOCIAL_AUTH_PARTIAL_PIPELINE_KEY', 'partial_pipeline')
         request.session['saved_username'] = request.POST['username']
         backend = request.session[name]['backend']
-        return redirect('socialauth_complete', backend=backend)
+        return redirect(getattr(settings, 'SOCIAL_AUTH_COMPLETE_URL_NAME', 'socialauth_complete'), backend=backend)
     return render_to_response('accounts/form.html', {}, RequestContext(request))

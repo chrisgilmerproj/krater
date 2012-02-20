@@ -15,7 +15,7 @@ class UserSocialAuth(mongoengine.Document):
     """
     user = mongoengine.ReferenceField(User)
     provider = mongoengine.StringField(unique_with='uid')
-    uid = mongoengine.StringField(unique=True)
+    uid = mongoengine.IntField(unique=True)
     extra_data = mongoengine.DictField()
 
     class Meta:
@@ -32,7 +32,7 @@ class UserSocialAuth(mongoengine.Document):
         value stored or it's malformed.
         """
         if self.extra_data:
-            name = settings.get('SOCIAL_AUTH_EXPIRATION', 'expires')
+            name = getattr(settings, 'SOCIAL_AUTH_EXPIRATION', 'expires')
             try:
                 return timedelta(seconds=int(self.extra_data.get(name)))
             except (ValueError, TypeError):

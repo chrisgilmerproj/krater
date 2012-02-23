@@ -3,10 +3,9 @@ import hmac
 import time
 import uuid
 
-from django.db import models
 from django.template.defaultfilters import slugify
 import mongoengine
-from apps.accounts.models import User
+from mongoengine.django.auth import User
 
 try:
     from hashlib import sha1
@@ -114,6 +113,7 @@ class ApiAccess(mongoengine.Document):
 
 
 class ApiKey(mongoengine.Document):
+
     user = mongoengine.ReferenceField(User)
     key = mongoengine.StringField()
     created = mongoengine.DateTimeField(default=datetime.datetime.now())
@@ -133,13 +133,13 @@ class ApiKey(mongoengine.Document):
         # Hmac that beast.
         return hmac.new(str(new_uuid), digestmod=sha1).hexdigest()
 
-
-def create_api_key(sender, **kwargs):
-    """
-    A signal for hooking up automatic ``ApiKey`` creation.
-    """
-    if kwargs.get('created') is True:
-        ApiKey.objects.create(user=kwargs.get('instance'))
+    @classmethod
+    def create_api_key(cls, sender, **kwargs):
+        """
+        A signal for hooking up automatic ``ApiKey`` creation.
+        """
+        if kwargs.get('created') is True:
+            ApiKey.objects.get_or_create(user=kwargs.get('document'))
 
 # Ensure API key is created for new users
-models.signals.post_save.connect(create_api_key, sender=User)
+mongoengine.signals.post_save.connect(ApiKey.create_api_key, sender=User)

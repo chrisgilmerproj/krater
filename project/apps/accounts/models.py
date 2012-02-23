@@ -1,26 +1,9 @@
 from datetime import timedelta
 
 from django.conf import settings
-from django.db.models import signals
 import mongoengine
-from mongoengine.django.auth import User as MongoUser
+from mongoengine.django.auth import User
 from mongoengine.queryset import DoesNotExist
-
-
-class User(MongoUser):
-
-    def save(self, safe=True, force_insert=False, **kwargs):
-        signals.pre_save.send(sender=self.__class__, instance=self)
-        before = '_id' in self and self['_id'] or None
-        super(User, self).save(safe=safe, force_insert=force_insert)
-        after = '_id' in self and self['_id'] or None
-        signals.post_save.send(sender=self.__class__, instance=self,
-                               created=bool(not before and after))
-
-    def delete(self, safe=False, **kwargs):
-        signals.pre_delete.send(sender=self.__class__, instance=self)
-        super(User, self).delete(safe=safe)
-        signals.post_delete.send(sender=self.__class__, instance=self)
 
 
 class UserSocialAuth(mongoengine.Document):

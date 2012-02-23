@@ -10,7 +10,7 @@ class ApiKeyAuthentication(Authentication):
         Should return either ``True`` if allowed, ``False`` if not or an
         ``HttpResponse`` if you need something custom.
         """
-        from apps.accounts.models import User
+        from mongoengine.django.auth import User
 
         try:
             username, api_key = self.extract_credentials(request)

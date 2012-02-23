@@ -138,14 +138,17 @@ USE_L10N = False
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
+    #'social_auth.backends.facebook.FacebookBackend',
+    #'social_auth.backends.google.GoogleOAuth2Backend',
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
 SESSION_ENGINE = 'mongoengine.django.sessions'
 
-SOCIAL_AUTH_ENABLED_BACKENDS = ('google-oauth2', 'facebook', 'twitter')
+SOCIAL_AUTH_ENABLED_BACKENDS = (
+    #'google-oauth2',
+    #'facebook',
+    'twitter')
 SOCIAL_AUTH_USER_MODEL = 'apps.accounts.models.User'
 SOCIAL_AUTH_USER_SOCIAL_AUTH_MODEL = 'apps.accounts.models.UserSocialAuth'
 SOCIAL_AUTH_NONCE_MODEL = 'apps.accounts.models.Nonce'

@@ -6,7 +6,7 @@ import uuid
 from django.db import models
 from django.template.defaultfilters import slugify
 import mongoengine
-from mongoengine.django.auth import User
+from apps.accounts.models import User
 
 try:
     from hashlib import sha1

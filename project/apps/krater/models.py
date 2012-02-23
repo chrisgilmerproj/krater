@@ -1,12 +1,19 @@
+import datetime
+import hmac
+import time
+import uuid
+
 from django.db import models
 from django.template.defaultfilters import slugify
-
 import mongoengine
 from mongoengine.django.auth import User
-from tastypie.models import create_api_key
 
-# Ensure API key is created for new users
-models.signals.post_save.connect(create_api_key, sender=User)
+try:
+    from hashlib import sha1
+    sha1
+except ImportError:
+    import sha
+    sha1 = sha.sha
 
 
 class Variety(mongoengine.Document):
@@ -89,3 +96,50 @@ class Wine(mongoengine.Document):
 
     def __unicode__(self):
         return "%s %s %s, %s" % (self.name, self.variety, self.year, self.vineyard)
+
+
+class ApiAccess(mongoengine.Document):
+    """A simple model for use with the ``CacheDBThrottle`` behaviors."""
+    identifier = mongoengine.StringField()
+    url = mongoengine.URLField()
+    request_method = mongoengine.StringField()
+    accessed = mongoengine.IntField()
+
+    def __unicode__(self):
+        return u"%s @ %s" % (self.identifer, self.accessed)
+
+    def save(self, *args, **kwargs):
+        self.accessed = int(time.time())
+        return super(ApiAccess, self).save(*args, **kwargs)
+
+
+class ApiKey(mongoengine.Document):
+    user = mongoengine.ReferenceField(User)
+    key = mongoengine.StringField()
+    created = mongoengine.DateTimeField(default=datetime.datetime.now())
+
+    def __unicode__(self):
+        return u"%s for %s" % (self.key, self.user)
+
+    def save(self, *args, **kwargs):
+        if not self.key:
+            self.key = self.generate_key()
+
+        return super(ApiKey, self).save(*args, **kwargs)
+
+    def generate_key(self):
+        # Get a random UUID.
+        new_uuid = uuid.uuid4()
+        # Hmac that beast.
+        return hmac.new(str(new_uuid), digestmod=sha1).hexdigest()
+
+
+def create_api_key(sender, **kwargs):
+    """
+    A signal for hooking up automatic ``ApiKey`` creation.
+    """
+    if kwargs.get('created') is True:
+        ApiKey.objects.create(user=kwargs.get('instance'))
+
+# Ensure API key is created for new users
+models.signals.post_save.connect(create_api_key, sender=User)

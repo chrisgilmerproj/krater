@@ -1,9 +1,9 @@
+import mongoengine
 from tastypie import fields
-from tastypie.authentication import ApiKeyAuthentication
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
-import mongoengine
 
+from apps.krater.authentication import ApiKeyAuthentication
 from apps.krater.fields import ListField, DictField
 from apps.krater.models import Variety, Vineyard, Wine
 

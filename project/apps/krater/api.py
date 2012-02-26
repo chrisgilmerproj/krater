@@ -2,6 +2,7 @@ import mongoengine
 from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.serializers import Serializer
+from tastypie.constants import ALL
 
 from apps.krater.authentication import ApiKeyAuthentication
 from apps.krater.fields import ListField, DictField
@@ -89,8 +90,8 @@ class MongoResource(ModelResource):
         #    result = fields.??
         #elif isinstance(f, mongoengine.MapField):
         #    result = fields.??
-        #elif isinstance(f, mongoengine.URLField):
-        #    result = fields.??
+        elif isinstance(f, mongoengine.URLField):
+            result = fields.CharField
         #elif isinstance(f, mongoengine.GenericReferenceField):
         #    result = fields.??
         #elif isinstance(f, mongoengine.BinaryField):
@@ -125,6 +126,9 @@ class VarietyResource(MongoResource):
 
 
 class VineyardResource(MongoResource):
+    location = fields.CharField(blank=True, null=True)
+    url = fields.CharField(blank=True, null=True)
+
     class Meta:
         allowed_methods = ['get']
         authentication = ApiKeyAuthentication()
@@ -145,6 +149,17 @@ class VineyardResource(MongoResource):
                   'url',
                   'location',
                  )
+        filtering = {
+            'permit_number': ALL,
+            'owner_name': ALL,
+            'operating_name': ALL,
+            'street': ALL,
+            'city': ALL,
+            'state': ALL,
+            'zipcode': ALL,
+            'county': ALL,
+            'slug': ALL,
+            }
 
     def get_object_list(self, request):
         # Limit query results

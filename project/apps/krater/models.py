@@ -60,13 +60,13 @@ class Vineyard(mongoengine.Document):
 
     # Extra Information
     slug = mongoengine.StringField(unique=True)
-    url = mongoengine.URLField(verify_exists=True, help_text="Vineyard website")
+    url = mongoengine.URLField(verify_exists=False, help_text="Vineyard website")
 
     def __unicode__(self):
         return self.owner_name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.owner_name)
+        self.slug = slugify('%s %s %s' % (self.owner_name, self.operating_name, self.permit_number))
         if isinstance(self.location, (basestring, unicode)):
             self.location = [float(point) for point in self.location.strip('[]').split(',')]
         super(Vineyard, self).save(*args, **kwargs)

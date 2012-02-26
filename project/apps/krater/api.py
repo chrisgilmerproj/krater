@@ -123,6 +123,12 @@ class VarietyResource(MongoResource):
                   'color',
                   'description',
                  )
+        filtering = {
+            'name': ALL,
+            'color': ALL,
+            'description': ALL,
+            'slug': ALL,
+            }
 
 
 class VineyardResource(MongoResource):

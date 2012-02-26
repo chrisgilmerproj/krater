@@ -26,7 +26,7 @@ class Variety(mongoengine.Document):
     name = mongoengine.StringField(max_length=255, unique=True, help_text="Varietal name")
     slug = mongoengine.StringField(unique=True)
     color = mongoengine.StringField(max_length=25, choices=VARIETY_CHOICES)
-    description = mongoengine.StringField()
+    description = mongoengine.StringField(default='None')
 
     def __unicode__(self):
         return self.name

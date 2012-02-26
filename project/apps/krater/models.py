@@ -97,6 +97,23 @@ class Wine(mongoengine.Document):
         return "%s %s %s, %s" % (self.name, self.variety, self.year, self.vineyard)
 
 
+class WineRating(mongoengine.Document):
+    """A rating by a user for a particular wine"""
+    user = mongoengine.ReferenceField(User)
+    wine = mongoengine.ReferenceField(Wine)
+    user_rating = mongoengine.IntField(default=0, help_text="The user rating")
+    suggested_rating = mongoengine.FloatField(default=0.0, help_text="The suggested rating")
+    created = mongoengine.DateTimeField(default=datetime.datetime.now())
+    updated = mongoengine.DateTimeField(default=datetime.datetime.now())
+
+    def __unicode__(self):
+        return u"%s: %s gives %s out of 5" % (self.user, self.wine, self.user_rating)
+
+    def save(self, *args, **kwargs):
+        self.updated = datetime.datetime.now()
+        super(WineRating, self).save(*args, **kwargs)
+
+
 class ApiAccess(mongoengine.Document):
     """A simple model for use with the ``CacheDBThrottle`` behaviors."""
     identifier = mongoengine.StringField()

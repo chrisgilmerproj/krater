@@ -17,6 +17,7 @@ urlpatterns = patterns('',
 
     url(r'^$', TemplateView.as_view(template_name='homepage.html'), name="home"),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^krater/', include('krater.urls')),
     url(r'^about$', TemplateView.as_view(template_name='about.html'), name="about"),
     url(r'^wines$', TemplateView.as_view(template_name='wines.html'), name="wines"),
     url(r'^vineyards$', TemplateView.as_view(template_name='vineyards.html'), name="vineyards"),

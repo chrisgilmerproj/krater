@@ -12,11 +12,17 @@ block content
       .span12
         - if (!everyauth.loggedIn)
           h2 Not Authenticated
+          #fb-login.fb_button(style='background-position: left -188px')
+              a.fb_button.fb_button_medium(href='/auth/facebook')
+                span#fb_login_text.fb_button_text Login with Facebook
           #twitter-login
             a(href='/auth/twitter', style='border: 0px')
               img(style='border: 0px', src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
         - else
           h2 Authenticated
+          - if (everyauth.facebook)
+              h3 Facebook User Data
+              p= JSON.stringify(everyauth.facebook.user)
           - if (everyauth.twitter)
             h3 Twitter User Data
             p= JSON.stringify(everyauth.twitter.user)

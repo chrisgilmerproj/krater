@@ -26,9 +26,21 @@ function addUser (source, sourceUser) {
   return user;
 }
 
-/* Twitter Connection */
+/* User info */
+var usersByFbId = {};
 var usersByTwitId = {};
 
+/* Facebook Connection */
+everyauth.facebook
+  .appId(conf.fb.appId)
+  .appSecret(conf.fb.appSecret)
+  .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
+    return usersByFbId[fbUserMetadata.id] ||
+      (usersByFbId[fbUserMetadata.id] = addUser('facebook', fbUserMetadata));
+  })
+  .redirectPath('/');
+
+/* Twitter Connection */
 everyauth.twitter
   .consumerKey(conf.twit.consumerKey)
   .consumerSecret(conf.twit.consumerSecret)
@@ -42,7 +54,7 @@ exports.run = function(argv) {
   /* create the server */
   var app = express.createServer(
       express.bodyParser()
-    , express.favicon()
+    , express.favicon() // TODO: Need to get a favicon and fill this out
     , express.cookieParser()
     , express.session({ secret: 'somesecretword'})
     , everyauth.middleware()

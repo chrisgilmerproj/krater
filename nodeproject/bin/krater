@@ -1,0 +1,4 @@
+#! /usr/local/bin/node
+
+var entry = require('../lib/entry');
+entry.run();

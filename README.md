@@ -1,6 +1,6 @@
 # Krater
 
-This is a small api for wine lovers
+This is an app for rating wine written in django
 
 # Installation
 

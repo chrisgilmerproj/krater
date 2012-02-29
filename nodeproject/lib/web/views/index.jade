@@ -10,27 +10,19 @@ block content
         p This is the node.js version of Krater
 
       .span12
-        h2 Authenticate
-        ul
-          li #{nextUserId}
-          li= JSON.stringify(usersById)
-          li= JSON.stringify(usersByType)
-        - if (everyauth.facebook)
-          h2 Facebook User Data
-          p= JSON.stringify(everyauth.facebook.user)
-        - else
-          #fb-login.fb_button(style='background-position: left -188px')
-              a.fb_button.fb_button_medium(href='/auth/facebook')
-                span#fb_login_text.fb_button_text Login with Facebook
-
-        - if (everyauth.twitter)
-          h2 Twitter User Data
-          p= JSON.stringify(everyauth.twitter.user)
-        - else
-          #twitter-login
-            a(href='/auth/twitter', style='border: 0px')
-              img(style='border: 0px', src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
-
         - if (everyauth.loggedIn)
-          h2 You are authenticated #{everyauth.twitter.user.name}
+          h2 Authenticated
+          p You are authenticated as #{everyauth.twitter.user.name}
           a(href='/logout') Logout
+        - else
+          h2 Authenticate
+          - if (!everyauth.facebook)
+            #fb-login.fb_button(style='background-position: left -188px')
+                a.fb_button.fb_button_medium(href='/auth/facebook')
+                  span#fb_login_text.fb_button_text Login with Facebook
+
+          - if (!everyauth.twitter)
+            #twitter-login
+              a(href='/auth/twitter', style='border: 0px')
+                img(style='border: 0px', src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
+

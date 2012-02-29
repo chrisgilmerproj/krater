@@ -32,5 +32,5 @@ block content
               img(style='border: 0px', src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
 
         - if (everyauth.loggedIn)
-          h2 You are authenticated
+          h2 You are authenticated #{everyauth.twitter.user.name}
           a(href='/logout') Logout

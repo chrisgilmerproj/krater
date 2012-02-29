@@ -25,7 +25,7 @@ function addUser (source, sourceUser) {
     user.id = ++nextUserId;
     return usersById[nextUserId] = user;
   } else { // non-password-based
-    user = usersById[++nextUserId] = {id: nextUserId};
+    user = usersById[++nextUserId] = {id: nextUserId, name:sourceUser.name};
     user[source] = sourceUser;
   }
   return user;

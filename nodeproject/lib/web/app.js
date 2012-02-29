@@ -10,8 +10,13 @@ var TEMPLATE_DIR = path.join(__dirname, 'views');
 /* Everyauth Stuff */
 everyauth.debug = true;
 
-var usersById = {};
+/* User info */
 var nextUserId = 0;
+var usersById = {};
+var usersByType = {
+    'facebook': {},
+    'twitter': {},
+};
 
 function addUser (source, sourceUser) {
   var user;
@@ -26,17 +31,13 @@ function addUser (source, sourceUser) {
   return user;
 }
 
-/* User info */
-var usersByFbId = {};
-var usersByTwitId = {};
-
 /* Facebook Connection */
 everyauth.facebook
   .appId(conf.fb.appId)
   .appSecret(conf.fb.appSecret)
   .findOrCreateUser( function (session, accessToken, accessTokenExtra, fbUserMetadata) {
-    return usersByFbId[fbUserMetadata.id] ||
-      (usersByFbId[fbUserMetadata.id] = addUser('facebook', fbUserMetadata));
+    return usersByType['facebook'][fbUserMetadata.id] ||
+      (usersByType['facebook'][fbUserMetadata.id] = addUser('facebook', fbUserMetadata));
   })
   .redirectPath('/');
 
@@ -45,7 +46,7 @@ everyauth.twitter
   .consumerKey(conf.twit.consumerKey)
   .consumerSecret(conf.twit.consumerSecret)
   .findOrCreateUser( function (sess, accessToken, accessSecret, twitUser) {
-    return usersByTwitId[twitUser.id] || (usersByTwitId[twitUser.id] = addUser('twitter', twitUser));
+    return usersByType['twitter'][twitUser.id] || (usersByType['twitter'][twitUser.id] = addUser('twitter', twitUser));
   })
   .redirectPath('/');
 
@@ -72,7 +73,11 @@ exports.run = function(argv) {
   app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 
   app.get('/', function(req, res) {
-    res.render('index.jade', {});
+    res.render('index.jade', {
+      'nextUserId': nextUserId,
+      'usersById': usersById,
+      'usersByType': usersByType,
+    });
   });
 
   /* helpers for everyauth */

@@ -81,6 +81,11 @@ exports.run = function(argv) {
     res.render('index.jade', {});
   });
 
+  app.post('/star/?', function(req, res) {
+    console.log(req.body.star);
+    console.log(req.body.id);
+  });
+
   app.get('/wine/?', function(req, res) {
     res.render('wine/wine_list.jade', {
     });
@@ -107,6 +112,7 @@ exports.run = function(argv) {
           var results = JSON.parse(body);
           var items = _.map(results.items, function(item){
                 return {
+                  'id': item.id,
                   'title': item.product.title,
                   'description': item.product.description,
                   'link': item.product.link,

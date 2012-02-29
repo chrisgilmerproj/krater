@@ -6,11 +6,23 @@
   ],
   "version": "0.0.1",
   "dependencies": {
+    "connect": "1.8.5",
     "express": "2.5.x",
+    "everyauth": "0.2.30",
+    "formidable": "1.0.9",
     "jade": "0.20.x",
     "logmagic": "0.1.x",
+    "mime": "1.2.5",
+    "node-swt": "0.1.1",
+    "node-wsfederation": "0.1.1",
+    "oauth": "0.9.5",
+    "openid": "0.4.1",
     "optimist": "0.2.x",
-    "request": "2.2.x"
+    "request": "2.2.x",
+    "restler": "2.0.0",
+    "sax": "0.3.5",
+    "qs": "0.4.2",
+    "xml2js": "0.1.13"
   },
   "engines": {
     "node": ">=0.4.1 <0.7.0"

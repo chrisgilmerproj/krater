@@ -1,9 +1,14 @@
 /* Imports */
-var conf = require('./conf')
+var _ = require('underscore')
   , connect = require('connect')
   , everyauth = require('everyauth')
   , express = require('express')
-  , path = require('path');
+  , path = require('path')
+  , request = require('request')
+  , qs = require('querystring');
+
+/* Local Imports */
+var conf = require('./conf');
 
 var TEMPLATE_DIR = path.join(__dirname, 'views');
 
@@ -84,6 +89,36 @@ exports.run = function(argv) {
   app.get('/wine/:id', function(req, res) {
     res.render('wine/wine_detail.jade', {
       'wine_id': req.params.id,
+    });
+  });
+
+  app.get('/search/?', function(req, res) {
+    var name = req.query['name'],
+        type = req.query['type'];
+    var product_url = 'https://www.googleapis.com/shopping/search/v1/public/products?'
+    var product_qs = qs.stringify({
+        key: conf.goog.simpleApiKey,
+        country: 'US',
+        alt: 'json',
+        q: name + " " + type
+    });
+    var product = request.get(product_url + product_qs, function (e, r, body) {
+        if (!e && r.statusCode == 200) {
+          var results = JSON.parse(body);
+          var items = _.map(results.items, function(item){
+                return {
+                  'title': item.product.title,
+                  'description': item.product.description,
+                  'link': item.product.link,
+                  'brand': item.product.brand,
+                  'image': _.first(item.product.images).link,
+                  'price': _.first(item.product.inventories).price
+                };
+          });
+          res.render('search.jade', {
+            'products': items
+          });
+        }
     });
   });
 

@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .container-fluid
+    .row-fluid
+      .span12
+        div.page-header
+          h2 Search
+
+        ul
+        for item in products
+          li
+            img(src="#{item.image}", height="40px", width="40px")
+            a(href="#{item.link}") #{item.title}

@@ -73,10 +73,17 @@ exports.run = function(argv) {
   app.use('/static', express.static(path.join(__dirname, '..', '..', 'static')));
 
   app.get('/', function(req, res) {
-    res.render('index.jade', {
-      'nextUserId': nextUserId,
-      'usersById': usersById,
-      'usersByType': usersByType,
+    res.render('index.jade', {});
+  });
+
+  app.get('/wine/?', function(req, res) {
+    res.render('wine/wine_list.jade', {
+    });
+  });
+
+  app.get('/wine/:id', function(req, res) {
+    res.render('wine/wine_detail.jade', {
+      'wine_id': req.params.id,
     });
   });
 

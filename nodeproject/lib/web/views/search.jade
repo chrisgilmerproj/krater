@@ -7,10 +7,10 @@ block content
         div.page-header
           h2 Search
 
-        table.table.table-striped.span8
+        table.table.table-striped.span10
           thead
             tr
-              th img
+              th rate
               th title
               th brand
               th price
@@ -18,9 +18,15 @@ block content
           tbody
             for item in products
               tr
-                td
+                td.span3
                   a(href="#{item.link}")
                     img(src="#{item.image}", height="40px", width="40px")
+                  div.btn-group(data-toggle="buttons-radio")
+                    button.btn.btn-primary(date-toggle="button") 1
+                    button.btn.btn-primary(date-toggle="button") 2
+                    button.btn.btn-primary(date-toggle="button") 3
+                    button.btn.btn-primary(date-toggle="button") 4
+                    button.btn.btn-primary(date-toggle="button") 5
                 td
                   a(href="#{item.link}") #{item.title}
                 td #{item.brand}

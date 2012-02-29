@@ -7,8 +7,22 @@ block content
         div.page-header
           h2 Search
 
-        ul
-        for item in products
-          li
-            img(src="#{item.image}", height="40px", width="40px")
-            a(href="#{item.link}") #{item.title}
+        table.table.table-striped.span8
+          thead
+            tr
+              th img
+              th title
+              th brand
+              th price
+              th description
+          tbody
+            for item in products
+              tr
+                td
+                  a(href="#{item.link}")
+                    img(src="#{item.image}", height="40px", width="40px")
+                td
+                  a(href="#{item.link}") #{item.title}
+                td #{item.brand}
+                td #{item.price}
+                td #{item.description}

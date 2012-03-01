@@ -1,0 +1,13 @@
+module.exports = {
+    fb: {
+        appId: ''
+      , appSecret: ''
+    }
+  , twit: {
+        consumerKey: ''
+      , consumerSecret: ''
+    }
+  , goog: {
+        simpleApiKey: ''
+    }
+};

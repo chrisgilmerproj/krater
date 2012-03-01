@@ -1,6 +1,5 @@
 /* Imports */
 var _ = require('underscore')
-  , connect = require('connect')
   , everyauth = require('everyauth')
   , express = require('express')
   , path = require('path')

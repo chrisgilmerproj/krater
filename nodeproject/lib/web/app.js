@@ -14,6 +14,10 @@ var TEMPLATE_DIR = path.join(__dirname, 'views');
 
 /* Debug info */
 everyauth.debug = false;
+ratings_debug = false;
+
+/* Ratings data */
+var ratings = {};
 
 /* Everyauth Stuff */
 var nextUserId = 0;
@@ -88,9 +92,11 @@ exports.run = function(argv) {
   });
 
   app.post('/star/?', function(req, res) {
-    console.log(req.user.id);
-    console.log(req.body.star);
-    console.log(req.body.id);
+    if(!_.has(ratings, req.user.id))
+      ratings[req.user.id] = {};
+    ratings[req.user.id][req.body.id] = req.body.star;
+    if(ratings_debug)
+      console.log(JSON.stringify(ratings));
   });
 
   app.get('/wine/?', function(req, res) {

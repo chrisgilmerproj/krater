@@ -98,18 +98,25 @@ exports.run = function(argv) {
   });
 
   app.get('/search/?', function(req, res) {
-    var name = req.query['name'],
-        type = req.query['type'];
+    var q = req.query['q'];
     var product_url = 'https://www.googleapis.com/shopping/search/v1/public/products?'
     var product_qs = qs.stringify({
-        key: conf.goog.simpleApiKey,
-        country: 'US',
-        alt: 'json',
-        q: name + " " + type
+        "key": conf.goog.simpleApiKey,
+        "country": 'US',
+        "language": 'en',
+        "currency": "USD",
+        "spelling.enabled": true,
+        "alt": 'json',
+        "q": q,
     });
     var product = request.get(product_url + product_qs, function (e, r, body) {
         if (!e && r.statusCode == 200) {
           var results = JSON.parse(body);
+          var spelling = _.map(results.spelling, function(item){
+                return item;
+          });
+          if(!spelling.length)
+            spelling = null;
           var items = _.map(results.items, function(item){
                 return {
                   'id': item.id,
@@ -122,7 +129,8 @@ exports.run = function(argv) {
                 };
           });
           res.render('search.jade', {
-            'products': items
+            'products': items,
+            'spelling': spelling
           });
         }
     });

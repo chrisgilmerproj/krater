@@ -7,6 +7,14 @@ block content
         div.page-header
           h2 Search
 
+        - if (spelling)
+          h3 Try these spelling suggestions
+          ul
+          for sp in spelling
+            li
+              a(href="/search/?q=#{sp}") #{sp}
+
+        br
         table.table.table-striped.span10
           thead
             tr

@@ -35,6 +35,10 @@ html(lang='en')
             ul.nav
               li.active
                 a(href='/') Home
+              - if (everyauth.loggedIn)
+                li.pull-right #{everyauth.twitter.user.name}
+            form.navbar-search.pull-right(method="GET", action="/search/")
+              input.search-query(type="text", name="q", placeholder="Search")
  
     block content
 

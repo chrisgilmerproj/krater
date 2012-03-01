@@ -100,21 +100,20 @@ exports.run = function(argv) {
   });
 
   app.get('/wine/?', function(req, res) {
+    var results = [];
     if (req.user){
       user_ratings = ratings[req.user.id]
-      var results = _.map(_.keys(user_ratings), function(item){
-        var thing = wine_data[item];
-        thing['rating'] = user_ratings[item];
-        return thing;
-      });
-      res.render('wine_list.jade', {
-        "products": results,
-      });
-    } else {
-      res.render('wine_list.jade', {
-        "products": [],
-      });
+      if(!_.isEmpty(user_ratings)){
+        var results = _.map(_.keys(user_ratings), function(item){
+          var thing = wine_data[item];
+          thing['rating'] = user_ratings[item];
+          return thing;
+        });
+      }
     }
+    res.render('wine_list.jade', {
+      "products": results,
+    });
   });
 
   app.get('/search/?', function(req, res) {

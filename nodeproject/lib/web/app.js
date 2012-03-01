@@ -18,6 +18,7 @@ ratings_debug = false;
 
 /* Ratings data */
 var ratings = {};
+var wine_data = {};
 
 /* Everyauth Stuff */
 var nextUserId = 0;
@@ -100,19 +101,18 @@ exports.run = function(argv) {
   });
 
   app.get('/wine/?', function(req, res) {
-    res.render('wine/wine_list.jade', {
+    user_ratings = ratings[req.user.id]
+    var results = _.map(_.keys(user_ratings), function(item){
+      return wine_data[item];
     });
-  });
-
-  app.get('/wine/:id', function(req, res) {
-    res.render('wine/wine_detail.jade', {
-      'wine_id': req.params.id,
+    console.log(results);
+    res.render('wine_list.jade', {
+      "products": results,
     });
   });
 
   app.get('/search/?', function(req, res) {
     var q = req.query.q || null;
-    console.log(q);
     var product_url = 'https://www.googleapis.com/shopping/search/v1/public/products?'
     var product_qs = qs.stringify({
         "key": conf.goog.simpleApiKey,
@@ -134,7 +134,7 @@ exports.run = function(argv) {
           if(!spelling.length)
             spelling = null;
           var items = _.map(results.items, function(item){
-                return {
+                var wine = {
                   'id': item.id,
                   'title': item.product.title,
                   'description': item.product.description,
@@ -143,6 +143,8 @@ exports.run = function(argv) {
                   'image': _.first(item.product.images).link,
                   'price': _.first(item.product.inventories).price
                 };
+                wine_data[item.id] = wine
+                return wine
           });
           res.render('search.jade', {
             'query': q,

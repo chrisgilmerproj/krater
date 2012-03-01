@@ -24,28 +24,4 @@ block content
               a(href="/search/?q=#{sp}") #{sp}
 
         br
-        table.table.table-striped.span10
-          thead
-            tr
-              th rate
-              th title
-              th brand
-              th price
-              th description
-          tbody
-            for item in products
-              tr
-                td.span3
-                  a(href="#{item.link}")
-                    img(src="#{item.image}", height="40px", width="40px")
-                  div.btn-group(data-toggle="buttons-radio", val="#{item.id}")
-                    button.btn.btn-primary(val="1", date-toggle="button") 1
-                    button.btn.btn-primary(val="2", date-toggle="button") 2
-                    button.btn.btn-primary(val="3", date-toggle="button") 3
-                    button.btn.btn-primary(val="4", date-toggle="button") 4
-                    button.btn.btn-primary(val="5", date-toggle="button") 5
-                td
-                  a(href="#{item.link}") #{item.title}
-                td #{item.brand}
-                td $#{item.price}
-                td #{item.description}
+        include product_list

@@ -35,6 +35,8 @@ html(lang='en')
             ul.nav
               li.active
                 a(href='/') Home
+              li
+                a(href='/wine/') My Wine
               - if (everyauth.loggedIn)
                 li
                   a(href='/') #{everyauth.user.name}

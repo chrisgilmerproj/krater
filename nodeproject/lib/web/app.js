@@ -105,7 +105,6 @@ exports.run = function(argv) {
       var results = _.map(_.keys(user_ratings), function(item){
         var thing = wine_data[item];
         thing['rating'] = user_ratings[item];
-        console.log(thing);
         return thing;
       });
       res.render('wine_list.jade', {

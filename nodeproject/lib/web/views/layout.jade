@@ -39,7 +39,7 @@ html(lang='en')
                 a(href='/wine/') My Wine
               - if (everyauth.loggedIn)
                 li
-                  a(href='/') #{everyauth.user.name}
+                  a(href='/wine/') #{everyauth.user.name}
             form.navbar-search.pull-right(method="GET", action="/search/")
               input.search-query(type="text", name="q", placeholder="Search")
  

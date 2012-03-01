@@ -101,14 +101,22 @@ exports.run = function(argv) {
   });
 
   app.get('/wine/?', function(req, res) {
-    user_ratings = ratings[req.user.id]
-    var results = _.map(_.keys(user_ratings), function(item){
-      return wine_data[item];
-    });
-    console.log(results);
-    res.render('wine_list.jade', {
-      "products": results,
-    });
+    if (req.user){
+      user_ratings = ratings[req.user.id]
+      var results = _.map(_.keys(user_ratings), function(item){
+        var thing = wine_data[item];
+        thing['rating'] = user_ratings[item];
+        console.log(thing);
+        return thing;
+      });
+      res.render('wine_list.jade', {
+        "products": results,
+      });
+    } else {
+      res.render('wine_list.jade', {
+        "products": [],
+      });
+    }
   });
 
   app.get('/search/?', function(req, res) {
@@ -141,7 +149,8 @@ exports.run = function(argv) {
                   'link': item.product.link,
                   'brand': item.product.brand,
                   'image': _.first(item.product.images).link,
-                  'price': _.first(item.product.inventories).price
+                  'price': _.first(item.product.inventories).price,
+                  'rating': null,
                 };
                 wine_data[item.id] = wine
                 return wine

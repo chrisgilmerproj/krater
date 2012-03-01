@@ -10,11 +10,12 @@ block content
           - else
             h2 Search
 
-        form.search(method="GET", action="/search/")
+        form.well.form-search(method="GET", action="/search/")
           - if (query)
-            input.search-query(type="text", name="q", value="#{query}")
+            input.input-medium.search-query(type="text", name="q", value="#{query}")
           - else
-            input.search-query(type="text", name="q", placeholder="Search")
+            input.input-medium.search-query(type="text", name="q", placeholder="Search")
+          button.btn.btn-primary(type="submit") Search
 
         - if (spelling)
           h3 Try these spelling suggestions

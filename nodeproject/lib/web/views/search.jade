@@ -5,10 +5,16 @@ block content
     .row-fluid
       .span12
         div.page-header
-          h2 Search
+          - if (query)
+            h2 Search for "#{query}"
+          - else
+            h2 Search
 
         form.search(method="GET", action="/search/")
-          input.search-query(type="text", name="q", placeholder="Search")
+          - if (query)
+            input.search-query(type="text", name="q", value="#{query}")
+          - else
+            input.search-query(type="text", name="q", placeholder="Search")
 
         - if (spelling)
           h3 Try these spelling suggestions

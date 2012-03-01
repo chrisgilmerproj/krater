@@ -111,14 +111,17 @@ exports.run = function(argv) {
   });
 
   app.get('/search/?', function(req, res) {
-    var q = req.query['q'];
+    var q = req.query.q || null;
+    console.log(q);
     var product_url = 'https://www.googleapis.com/shopping/search/v1/public/products?'
     var product_qs = qs.stringify({
         "key": conf.goog.simpleApiKey,
         "country": 'US',
         "language": 'en',
         "currency": "USD",
+        "rankBy": "relevancy",
         "spelling.enabled": true,
+        "crowdBy": "brand:1",
         "alt": 'json',
         "q": q,
     });
@@ -142,6 +145,7 @@ exports.run = function(argv) {
                 };
           });
           res.render('search.jade', {
+            'query': q,
             'products': items,
             'spelling': spelling
           });

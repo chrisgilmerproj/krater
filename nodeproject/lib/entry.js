@@ -1,10 +1,10 @@
-var path = require('path');
+var optimist = require('optimist')
+  , path = require('path');
 
-var optimist = require('optimist');
 var app = require('./web/app');                                                                                
                                                                                                                
 exports.run = function() {                                                                                     
-  var argv, devops;                                                                                            
+  var argv;                                                                                            
                                                                                                                
   optimist = optimist.usage('Usage: $0 -p [port] [-h]');                        
   optimist = optimist['default']('p', 3000);                                                                   

@@ -12,10 +12,10 @@ var conf = require('./conf');
 
 var TEMPLATE_DIR = path.join(__dirname, 'views');
 
-/* Everyauth Stuff */
-everyauth.debug = true;
+/* Debug info */
+everyauth.debug = false;
 
-/* User info */
+/* Everyauth Stuff */
 var nextUserId = 0;
 var usersById = {};
 var usersByType = {
@@ -35,6 +35,12 @@ function addUser (source, sourceUser) {
   }
   return user;
 }
+
+/* Find User */
+everyauth.everymodule
+  .findUserById( function (id, callback) {
+    callback(null, usersById[id]);
+  });
 
 /* Facebook Connection */
 everyauth.facebook
@@ -82,6 +88,7 @@ exports.run = function(argv) {
   });
 
   app.post('/star/?', function(req, res) {
+    console.log(req.user.id);
     console.log(req.body.star);
     console.log(req.body.id);
   });

@@ -36,10 +36,28 @@ html(lang='en')
               li.active
                 a(href='/') Home
               - if (everyauth.loggedIn)
-                li.pull-right #{everyauth.twitter.user.name}
+                li
+                  a(href='/') #{everyauth.user.name}
             form.navbar-search.pull-right(method="GET", action="/search/")
               input.search-query(type="text", name="q", placeholder="Search")
  
+    .span12
+      - if (everyauth.loggedIn)
+        h2 Authenticated
+        p You are authenticated as #{everyauth.user.name}
+        a(href='/logout') Logout
+      - else
+        h2 Authenticate
+        - if (!everyauth.facebook)
+          #fb-login.fb_button(style='background-position: left -188px')
+              a.fb_button.fb_button_medium(href='/auth/facebook')
+                span#fb_login_text.fb_button_text Login with Facebook
+
+        - if (!everyauth.twitter)
+          #twitter-login
+            a(href='/auth/twitter', style='border: 0px')
+              img(style='border: 0px', src='https://si0.twimg.com/images/dev/buttons/sign-in-with-twitter-l.png')
+
     block content
 
     script(src='/static/jquery/jquery-1.7.1.min.js')

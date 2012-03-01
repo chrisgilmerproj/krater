@@ -7,6 +7,9 @@ block content
         div.page-header
           h2 Search
 
+        form.search(method="GET", action="/search/")
+          input.search-query(type="text", name="q", placeholder="Search")
+
         - if (spelling)
           h3 Try these spelling suggestions
           ul

@@ -78,7 +78,7 @@ exports.run = function(argv) {
   );
 
   /* setup templating engine */
-  app.engine('jade', cons.swig);
+  //app.engine('jade', cons.swig);
   app.configure( function() {
     app.set('views', TEMPLATE_DIR);
     app.set('view engine', 'jade');

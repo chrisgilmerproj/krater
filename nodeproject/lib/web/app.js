@@ -1,5 +1,6 @@
 /* Imports */
 var _ = require('underscore')
+  , cons = require('consolidate')
   , everyauth = require('everyauth')
   , express = require('express')
   , path = require('path')
@@ -77,6 +78,7 @@ exports.run = function(argv) {
   );
 
   /* setup templating engine */
+  app.engine('jade', cons.swig);
   app.configure( function() {
     app.set('views', TEMPLATE_DIR);
     app.set('view engine', 'jade');

@@ -8,6 +8,7 @@
   "dependencies": {
     "commander": "0.5.2",
     "connect": "1.8.5",
+    "consolidate": "0.1.0",
     "everyauth": "0.2.30",
     "express": "2.5.8",
     "formidable": "1.0.9",

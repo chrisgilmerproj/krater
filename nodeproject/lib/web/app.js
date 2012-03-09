@@ -106,7 +106,9 @@ exports.run = function(argv) {
       if(!_.isEmpty(user_ratings)){
         var results = _.map(_.keys(user_ratings), function(item){
           var thing = wine_data[item];
-          thing['rating'] = user_ratings[item];
+          if(thing){
+            thing['rating'] = user_ratings[item];
+          }
           return thing;
         });
       }

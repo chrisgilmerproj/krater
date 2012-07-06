@@ -39,7 +39,7 @@ class WineApi(object):
             'offset': str(self.offset),
             'size': str(self.size),
             'sort': self.sort,
-            #'apikey': self.api_key,
+            'apikey': self.api_key,
             })
         return payload
 
@@ -50,7 +50,7 @@ class WineApi(object):
         if DEBUG and code != 0:
             print 'Status %d: %s' % (code, '\n'.join(messages))
         if code == 0:
-            return data
+            pass
         elif code == 100:
             raise Exception('A critical error was encountered. This is due to a bug in the service. Please notify wine.com ASAP to correct this issue.')
         elif code == 200:
@@ -58,13 +58,23 @@ class WineApi(object):
         elif code == 300:
             raise Exception('No Access. Account does not have access to this service.')
 
+    def get_data(self, resource, data):
+        self.verify_message(data)
+        RESOURCE_TO_DATA_MAP = {
+            'catalog': 'Products',
+            'categorymap': 'Categories',
+            'reference': 'Books',
+        }
+        key = RESOURCE_TO_DATA_MAP[resource]
+        return data[key]
+
     def get(self, resource, **kwargs):
         url = self.get_url_endpoint(resource)
         r = requests.get(url, params=self.get_payload(kwargs))
         data = json.loads(r.content)
         if DEBUG:
             print r.url
-        return self.verify_message(data)
+        return self.get_data(resource, data)
 
     def search(self, query):
         payload = {
@@ -77,7 +87,7 @@ def main():
 
     api = WineApi()
     data = api.search("7 Deadly Zins")
-    data = data['Products']['List'][0]
+    data = data['List'][0]
     pprint.pprint(data)
 
 

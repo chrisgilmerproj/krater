@@ -121,11 +121,13 @@ class WineApi(object):
 
     def __init__(self, api_key='', format='json', offset=0, size=25,
                        sort='rating', direction='ascending',
-                       state='CA', instock=True):
+                       state='CA', instock=True,
+                       filter=''):
         self.offset = offset
         self.size = size
         self.state = state
         self.instock = instock
+        self.filter = ''
 
         if not api_key:
             self.api_key = self.get_api_key()
@@ -147,6 +149,18 @@ class WineApi(object):
             raise Exception('Sort direction must be ascending or descending')
         self.sort = '%s|%s' % (sort, direction)
 
+    def set_filters(self, categories=None, rating=None, price=None, product=None):
+        filters = []
+        if categories:
+            filters.append('categories(%s)' % categories)
+        if rating:
+            filters.append('rating(%s)' % rating)
+        if price:
+            filters.append('price(%s)' % price)
+        if product:
+            filters.append('product(%s)' % product)
+        self.filter = '+'.join(filters)
+
     def get_api_key(self):
         try:
             return os.environ['WINE_API_KEY']
@@ -167,6 +181,8 @@ class WineApi(object):
             'instock': str(self.instock).lower(),
             'apikey': self.api_key,
             })
+        if self.filter:
+            payload['filter'] = self.filter
         return payload
 
     def verify_message(self, data):

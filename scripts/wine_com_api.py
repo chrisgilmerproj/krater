@@ -107,15 +107,18 @@ class WineCategories(object):
 
 class WineApi(object):
     API_ENDPOINT = "http://services.wine.com/api/beta2/service.svc"
-    RESOURCE_LIST = ["catalog", "reference", "categorymap"]
+    RESOURCE_LIST = ["catalog",
+                     "categorymap",
+                     #"reference",
+                     ]
     RESOURCE_TO_CLASS_MAP = {
         'catalog': WineProducts,
         'categorymap': WineCategories,
         #'reference': 'Books',
     }
+    FORMAT_TYPES = ['xml', 'json']
 
     def __init__(self, format='json', offset=0, size=25, sort='ascending', api_key=''):
-        self.format = format
         self.offset = offset
         self.size = size
         self.sort = 'ascending'
@@ -123,6 +126,12 @@ class WineApi(object):
             self.api_key = self.get_api_key()
         else:
             self.api_key = api_key
+        self.set_format(format)
+
+    def set_format(self, format):
+        if format not in self.FORMAT_TYPES:
+            raise Exception('Invalid format. Must use one of %s' % self.FORMAT_TYPES)
+        self.format = format
 
     def get_api_key(self):
         try:

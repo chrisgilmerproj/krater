@@ -7,11 +7,16 @@ import pprint
 import requests
 
 DEBUG = True
-API_ENDPOINT = "http://services.wine.com/api/beta2/service.svc"
-RESOURCE_LIST = ["catalog", "reference", "categorymap"]
 
 
 class WineApi(object):
+    API_ENDPOINT = "http://services.wine.com/api/beta2/service.svc"
+    RESOURCE_LIST = ["catalog", "reference", "categorymap"]
+    RESOURCE_TO_DATA_MAP = {
+        'catalog': 'Products',
+        'categorymap': 'Categories',
+        'reference': 'Books',
+    }
 
     def __init__(self, format='json', offset=0, size=25, sort='ascending', api_key=''):
         self.format = format
@@ -30,9 +35,9 @@ class WineApi(object):
             return ""
 
     def get_url_endpoint(self, resource):
-        if resource not in RESOURCE_LIST:
-            raise Exception('Invalid resource. Must use one of %s' % RESOURCE_LIST)
-        return os.path.join(API_ENDPOINT, self.format, resource)
+        if resource not in self.RESOURCE_LIST:
+            raise Exception('Invalid resource. Must use one of %s' % self.RESOURCE_LIST)
+        return os.path.join(self.API_ENDPOINT, self.format, resource)
 
     def get_payload(self, payload):
         payload.update({
@@ -60,12 +65,7 @@ class WineApi(object):
 
     def get_data(self, resource, data):
         self.verify_message(data)
-        RESOURCE_TO_DATA_MAP = {
-            'catalog': 'Products',
-            'categorymap': 'Categories',
-            'reference': 'Books',
-        }
-        key = RESOURCE_TO_DATA_MAP[resource]
+        key = self.RESOURCE_TO_DATA_MAP[resource]
         return data[key]
 
     def get(self, resource, **kwargs):

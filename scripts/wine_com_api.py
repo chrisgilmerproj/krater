@@ -118,10 +118,13 @@ class WineApi(object):
     }
     FORMAT_TYPES = ['xml', 'json']
 
-    def __init__(self, format='json', offset=0, size=25, sort='ascending', api_key=''):
+    def __init__(self, api_key='', format='json', offset=0, size=25,
+                       sort='ascending', state='CA', instock=True):
         self.offset = offset
         self.size = size
         self.sort = 'ascending'
+        self.state = state
+        self.instock = instock
         if not api_key:
             self.api_key = self.get_api_key()
         else:
@@ -149,6 +152,8 @@ class WineApi(object):
             'offset': str(self.offset),
             'size': str(self.size),
             'sort': self.sort,
+            'state': self.state,
+            'instock': str(self.instock).lower(),
             'apikey': self.api_key,
             })
         return payload

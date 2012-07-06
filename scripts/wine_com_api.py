@@ -2,7 +2,6 @@
 
 import simplejson as json
 import os
-import pprint
 
 import requests
 
@@ -233,6 +232,7 @@ class WineApi(object):
 def main():
 
     api = WineApi()
+    api.set_filters(rating='85|100')
     wine_products = api.search("7 Deadly Zins")
     product = wine_products.products[0]
     print product

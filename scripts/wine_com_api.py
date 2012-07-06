@@ -9,13 +9,109 @@ import requests
 DEBUG = True
 
 
+class WineProduct(object):
+
+    def __init__(self, data):
+        self.raw_data = data
+
+        self.id = data['Id']
+        self.name = data['Name']
+        self.description = data['Description']
+        self.geo_location = data['GeoLocation']
+        self.url = data['Url']
+        self.price_min = float(data['PriceMin'])
+        self.price_max = float(data['PriceMax'])
+        self.price_retail = float(data['PriceRetail'])
+        self.type = data['Type']
+        if 'Year' in data:
+            self.year = int(data['Year'])
+        else:
+            self.year = 0
+        self.appellation = data['Appellation']
+        self.varietal = data['Varietal']
+        self.vineyard = data['Vineyard']
+        if 'Product' in data:
+            self.product = data['Product']
+        else:
+            self.product = ''
+        self.labels = data['Labels']
+        self.ratings = data['Ratings']
+        self.retail = data['Retail']
+        self.vintages = data['Vintages']
+        self.community = data['Community']
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.__unicode__()
+
+
+class WineProducts(object):
+
+    data_key = 'Products'
+
+    def __init__(self, data):
+        data = data[self.data_key]
+        self.total = data['Total']
+        self.offset = data['Offset']
+        self.url = data['Url']
+        self.list = data['List']
+        self.set_products()
+
+    def set_products(self):
+        self.products = [WineProduct(item) for item in self.list]
+
+
+class Refinement(object):
+
+    def __init__(self, data):
+        self.raw_data = data
+        self.id = data['Id']
+        self.name = data['Name']
+        self.url = data['Url']
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.__unicode__()
+
+
+class WineCategory(object):
+
+    def __init__(self, data):
+        self.raw_data = data
+        self.id = data['Id']
+        self.name = data['Name']
+        self.refinements = [Refinement(item) for item in data['Refinements']]
+
+    def __unicode__(self):
+        return self.name
+
+    def __repr__(self):
+        return self.__unicode__()
+
+
+class WineCategories(object):
+
+    data_key = 'Categories'
+
+    def __init__(self, data):
+        self.data = data[self.data_key]
+        self.set_categories()
+
+    def set_categories(self):
+        self.categories = [WineCategory(item) for item in self.data]
+
+
 class WineApi(object):
     API_ENDPOINT = "http://services.wine.com/api/beta2/service.svc"
     RESOURCE_LIST = ["catalog", "reference", "categorymap"]
-    RESOURCE_TO_DATA_MAP = {
-        'catalog': 'Products',
-        'categorymap': 'Categories',
-        'reference': 'Books',
+    RESOURCE_TO_CLASS_MAP = {
+        'catalog': WineProducts,
+        'categorymap': WineCategories,
+        #'reference': 'Books',
     }
 
     def __init__(self, format='json', offset=0, size=25, sort='ascending', api_key=''):
@@ -65,8 +161,8 @@ class WineApi(object):
 
     def get_data(self, resource, data):
         self.verify_message(data)
-        key = self.RESOURCE_TO_DATA_MAP[resource]
-        return data[key]
+        cls = self.RESOURCE_TO_CLASS_MAP[resource]
+        return cls(data)
 
     def get(self, resource, **kwargs):
         url = self.get_url_endpoint(resource)
@@ -86,9 +182,12 @@ class WineApi(object):
 def main():
 
     api = WineApi()
-    data = api.search("7 Deadly Zins")
-    data = data['List'][0]
-    pprint.pprint(data)
+    wine_products = api.search("7 Deadly Zins")
+    product = wine_products.products[0]
+    print product
+
+    wine_categories = api.get('categorymap')
+    print wine_categories.categories[0].refinements[2]
 
 
 if __name__ == "__main__":

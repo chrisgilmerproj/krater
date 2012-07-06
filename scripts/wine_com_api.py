@@ -181,11 +181,21 @@ class WineApi(object):
             print r.url
         return self.get_data(resource, data)
 
-    def search(self, query):
+    def search(self, query, **kwargs):
         payload = {
             'search': '+'.join(query.split()),
         }
+        payload.update(kwargs)
         return self.get('catalog', **payload)
+
+    def catalog(self, **kwargs):
+        return self.get('catalog', **kwargs)
+
+    def categorymap(self, **kwargs):
+        return self.get('categorymap', **kwargs)
+
+    def reference(self, **kwargs):
+        return self.get('reference', **kwargs)
 
 
 def main():
@@ -195,7 +205,7 @@ def main():
     product = wine_products.products[0]
     print product
 
-    wine_categories = api.get('categorymap')
+    wine_categories = api.categorymap()
     print wine_categories.categories[0].refinements[2]
 
 

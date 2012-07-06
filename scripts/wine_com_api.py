@@ -142,7 +142,7 @@ class WineApi(object):
             raise Exception('Invalid format. Must use one of %s' % self.FORMAT_TYPES)
         self.format = format
 
-    def set_sort(self, sort, direction='ascending'):
+    def set_sort(self, sort='rating', direction='ascending'):
         if sort not in self.SORT_TYPES:
             raise Exception('Invalid sort. Must use one of %s' % self.SORT_TYPES)
         if direction not in ['ascending', 'descending']:

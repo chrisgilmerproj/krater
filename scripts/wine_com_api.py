@@ -117,24 +117,35 @@ class WineApi(object):
         #'reference': 'Books',
     }
     FORMAT_TYPES = ['xml', 'json']
+    SORT_TYPES = ['popularity', 'rating', 'vintage', 'winery', 'name', 'price', 'saving', 'justIn']
 
     def __init__(self, api_key='', format='json', offset=0, size=25,
-                       sort='ascending', state='CA', instock=True):
+                       sort='rating', direction='ascending',
+                       state='CA', instock=True):
         self.offset = offset
         self.size = size
-        self.sort = 'ascending'
         self.state = state
         self.instock = instock
+
         if not api_key:
             self.api_key = self.get_api_key()
         else:
             self.api_key = api_key
+
         self.set_format(format)
+        self.set_sort(sort, direction)
 
     def set_format(self, format):
         if format not in self.FORMAT_TYPES:
             raise Exception('Invalid format. Must use one of %s' % self.FORMAT_TYPES)
         self.format = format
+
+    def set_sort(self, sort, direction='ascending'):
+        if sort not in self.SORT_TYPES:
+            raise Exception('Invalid sort. Must use one of %s' % self.SORT_TYPES)
+        if direction not in ['ascending', 'descending']:
+            raise Exception('Sort direction must be ascending or descending')
+        self.sort = '%s|%s' % (sort, direction)
 
     def get_api_key(self):
         try:

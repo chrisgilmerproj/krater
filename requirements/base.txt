@@ -14,5 +14,5 @@ pymongo==2.1.1
 python-dateutil==1.5
 python-openid==2.2.5
 PyYAML==3.10
-requests==0.10.6
+requests==2.20.0
 simplejson==2.3.2
